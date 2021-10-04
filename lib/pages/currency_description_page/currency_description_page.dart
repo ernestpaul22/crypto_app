@@ -39,7 +39,13 @@ class CurrencyDescriptionPage extends StatelessWidget {
       children.add(Flexible(
         child: Container(
           margin: EdgeInsets.symmetric(horizontal: 2),
-          height: double.parse(e.toString()) * 10,
+          height: data.first > 100
+              ? double.parse(e.toString()) / 10
+              : data.first < 1
+                  ? double.parse(e.toString()) * 2000
+                  : data.first < 50
+                      ? double.parse(e.toString()) * 10
+                      : double.parse(e.toString()),
           width: 10,
           color: Colors.blue,
         ),
