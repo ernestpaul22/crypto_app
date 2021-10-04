@@ -3,6 +3,7 @@ import 'package:crypto_app/services/global.dart';
 import 'package:crypto_app/styles/fonts.dart';
 
 import 'package:flutter/material.dart';
+import 'currency_description_page_component/currency_descrition_page_components.dart';
 
 class CurrencyDescriptionPage extends StatelessWidget {
   String name;
@@ -19,6 +20,33 @@ class CurrencyDescriptionPage extends StatelessWidget {
     } catch (e) {
       return Image.asset('assets/images/cryptoLogo.jpeg');
     }
+  }
+
+  Widget buildGraph(CurrencyData currencyData) {
+    List<Widget> children = [];
+    List<double> data = [];
+    List<double> graphData = [];
+
+    currencyData.history.forEach((e) {
+      double a = double.parse(e);
+      data.add(a);
+      graphData.add(a);
+    });
+    data.sort();
+    graphData.forEach((e) {
+      e = e - data.first;
+      print(e);
+      children.add(Flexible(
+        child: Container(
+          margin: EdgeInsets.symmetric(horizontal: 2),
+          height: double.parse(e.toString()) * 10,
+          width: 10,
+          color: Colors.blue,
+        ),
+      ));
+    });
+
+    return CustomGraph(data: data, children: children);
   }
 
   Widget build(BuildContext context) {
@@ -61,6 +89,13 @@ class CurrencyDescriptionPage extends StatelessWidget {
               height: 6,
             ),
             Text(currencyData.description),
+            SizedBox(
+              height: 48,
+            ),
+            buildGraph(currencyData),
+            SizedBox(
+              height: 48,
+            ),
           ],
         ),
       ),
